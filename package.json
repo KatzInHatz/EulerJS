@@ -1,0 +1,28 @@
+{
+  "name": "EulerJS",
+  "version": "0.0.0",
+  "description": "Javascript port of EulerPy",
+  "main": "euler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EulerJS/EulerJS.git"
+  },
+  "preferGlobal": "true",
+  "directories": {
+    "bin": "./bin"
+  },
+  "keywords": [
+    "Project",
+    "Euler",
+    "Problems"
+  ],
+  "author": "Aaron Ward, John Doty",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/EulerJS/EulerJS/issues"
+  },
+  "homepage": "https://github.com/EulerJS/EulerJS"
+}
