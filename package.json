@@ -1,5 +1,5 @@
 {
-  "name": "EulerJS",
+  "name": "euler",
   "version": "0.0.0",
   "description": "Javascript port of EulerPy",
   "main": "euler.js",
@@ -19,7 +19,7 @@
     "Euler",
     "Problems"
   ],
-  "author": "Aaron Ward, John Doty",
+  "author": "Aaron Ward <aaronp@gmail.com>, John Doty <jrhdoty@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/EulerJS/EulerJS/issues"
