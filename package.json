@@ -11,9 +11,7 @@
     "url": "https://github.com/EulerJS/EulerJS.git"
   },
   "preferGlobal": "true",
-  "directories": {
-    "bin": "./bin"
-  },
+  "bin": { "euler" : "./bin/euler" },
   "keywords": [
     "Project",
     "Euler",
