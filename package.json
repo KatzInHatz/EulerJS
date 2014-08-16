@@ -26,6 +26,6 @@
   },
   "homepage": "https://github.com/EulerJS/EulerJS",
   "dependencies": {
-    "minimist": "^1.1.0"
+    "commander": "^2.3.0",
   }
 }
