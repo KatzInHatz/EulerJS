@@ -1,0 +1,49 @@
+{
+  "22": "names.txt",
+  "42": "words.txt",
+  "54": "poker.txt",
+  "59": "cipher1.txt",
+  "67": "triangle.txt",
+  "79": "keylog.txt",
+  "81": "matrix.txt",
+  "82": "matrix.txt",
+  "83": "matrix.txt",
+  "89": "roman.txt",
+  "96": "sudoku.txt",
+  "98": "words.txt",
+  "99": "base_exp.txt",
+  "102": "triangles.txt",
+  "105": "sets.txt",
+  "107": "network.txt",
+  "202": "202_laserbeam.gif",
+  "208": "208_robotwalk.gif",
+  "215": "215_crackfree.gif",
+  "220": "220.gif",
+  "226": [
+    "226_formula.gif",
+    "226_scoop2.gif"
+  ],
+  "228": "228.png",
+  "237": "237.gif",
+  "244": [
+    "244_start.gif",
+    "244_example.gif",
+    "244_target.gif"
+  ],
+  "246": [
+    "246_anim.gif",
+    "246_ellipse.gif"
+  ],
+  "247": "247_hypersquares.gif",
+  "251": "251_cardano.gif",
+  "252": "252_convexhole.gif",
+  "255": [
+    "255_Heron.gif",
+    "255_Example.gif"
+  ],
+  "256": "256_tatami3.gif",
+  "257": "257_bisector.gif",
+  "262": "262_formula1.gif",
+  "264": "264_TriangleCentres.gif",
+  "265": "265_BinaryCircles.gif"
+}
