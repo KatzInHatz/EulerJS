@@ -11,7 +11,9 @@
     "url": "https://github.com/EulerJS/EulerJS.git"
   },
   "preferGlobal": "true",
-  "bin": { "euler" : "./bin/euler" },
+  "bin": {
+    "euler": "./bin/euler"
+  },
   "keywords": [
     "Project",
     "Euler",
@@ -22,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/EulerJS/EulerJS/issues"
   },
-  "homepage": "https://github.com/EulerJS/EulerJS"
+  "homepage": "https://github.com/EulerJS/EulerJS",
+  "dependencies": {
+    "minimist": "^1.1.0"
+  }
 }
