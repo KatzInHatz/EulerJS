@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/EulerJS/EulerJS",
   "dependencies": {
+    "colors": "^0.6.2",
     "commander": "^2.3.0",
     "inquirer": "^0.6.0"
   }
