@@ -19,7 +19,15 @@
     "Euler",
     "Problems"
   ],
-  "author": "Aaron Ward <aaronp@gmail.com>, John Doty <jrhdoty@gmail.com>",
+  "contributors": [
+    { "name" : "John Doty",
+      "email" : "jrhdoty@gmail.com"
+    },
+    { "name" : "Aaron Ward",
+      "email" : "aaromp@gmail.com",
+      "url" : "http://aaronward.io/"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/EulerJS/EulerJS/issues"
