@@ -20,12 +20,14 @@
     "Problems"
   ],
   "contributors": [
-    { "name" : "John Doty",
-      "email" : "jrhdoty@gmail.com"
+    {
+      "name": "John Doty",
+      "email": "jrhdoty@gmail.com"
     },
-    { "name" : "Aaron Ward",
-      "email" : "aaromp@gmail.com",
-      "url" : "http://aaronward.io/"
+    {
+      "name": "Aaron Ward",
+      "email": "aaromp@gmail.com",
+      "url": "http://aaronward.io/"
     }
   ],
   "license": "MIT",
@@ -34,6 +36,7 @@
   },
   "homepage": "https://github.com/EulerJS/EulerJS",
   "dependencies": {
+    "coffee-script": "^1.7.1",
     "colors": "^0.6.2",
     "commander": "^2.3.0",
     "inquirer": "^0.6.0"
