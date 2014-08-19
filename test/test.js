@@ -10,12 +10,6 @@ var get = require('../lib/utils/getter');
 //   console.log('failure');
 // }, 'coffee', '226');
 
-// generate.file(function(prompt) {
-//   console.log('success');
-// }, function() {
-//   console.log('failure');
-// }, 'js', '010');
-
 describe('Generator', function(){
   describe('* generate preview', function(){
 
@@ -66,6 +60,55 @@ describe('Generator', function(){
       test.should.be.true;
     });
 
+  });
+
+  describe('* generate file', function(){
+
+    it('should generate a js style template for prompt 001', function(){
+      var answer, solution;
+
+      solution = 
+        '// Problem 1\n' +
+        '// =========\n' +
+        '// \n' +
+        '// If we list all the natural numbers below 10 that are multiples of 3 or 5,\n' +
+        '// we get 3, 5, 6 and 9. The sum of these multiples is 23.\n' +
+        '// \n' +
+        '// Find the sum of all the multiples of 3 or 5 below 1000.\n\n\n\n' +
+        '// TODO: return your answer for this prompt.\n' +
+        'return solution;\n';
+
+      generate.file(function(prompt) {
+        answer = prompt;
+      }, function() {
+        answer = '';
+      }, 'js', '001');
+
+      answer.should.equal(solution);
+    });
+
+  it('should generate a coffeescript style template for prompt 001', function(){
+      var answer, solution;
+
+      solution = 
+        '# Problem 1\n' +
+        '# =========\n' +
+        '# \n' +
+        '# If we list all the natural numbers below 10 that are multiples of 3 or 5,\n' +
+        '# we get 3, 5, 6 and 9. The sum of these multiples is 23.\n' +
+        '# \n' +
+        '# Find the sum of all the multiples of 3 or 5 below 1000.\n\n\n\n' +
+        '# TODO: return your answer for this prompt.\n' +
+        'return solution\n';
+
+      generate.file(function(prompt) {
+        answer = prompt;
+      }, function() {
+        answer = '';
+      }, 'coffee', '001');
+
+      answer.should.equal(solution);
+    });
   });
 
 });
