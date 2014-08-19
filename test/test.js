@@ -16,70 +16,28 @@ var get = require('../lib/utils/getter');
 //   console.log('failure');
 // }, 'js', '010');
 
-// describe('Generator', function(){
-//   describe('#generate.file coffee', function(){
-//     it('should return -1 when the value is not present', function(){
-//       [1,2,3].indexOf(5).should.equal(-1);
-//       [1,2,3].indexOf(0).should.equal(-1);
-//     });
-//   });
-// });
-
 describe('Generator', function(){
-  describe('* get solution', function(){
+  describe('* generate preview', function(){
 
-    it('should return \'142913828922\' as the solution for prompt 010', function(){
-      get.solution(function(solution) {
-        solution.should.equal('142913828922');
+    it('should generate preview for prompt 001', function(){
+      var answer, solution;
+
+      solution = 
+        'Problem 1\n' +
+        '=========\n' +
+        '\n' +
+        'If we list all the natural numbers below 10 that are multiples of 3 or 5,\n' +
+        'we get 3, 5, 6 and 9. The sum of these multiples is 23.\n' +
+        '\n' +
+        'Find the sum of all the multiples of 3 or 5 below 1000.';
+
+      generate.preview(function(prompt) {
+        answer = prompt;
       }, function() {
-        console.log('failure');
-      }, '010');
-    });
+        answer = '';
+      }, '001');
 
-    it('should call failure callback as the solution for prompt 000', function(){
-      var test;
-
-      get.solution(function(solution) {
-        test = false;
-      }, function() {
-        test = true;
-      }, '000');
-
-      test.should.be.true;
-    });
-
-    it('should call failure callback as the solution for prompt 405', function(){
-      var test;
-
-      get.solution(function(solution) {
-        test = false;
-      }, function() {
-        test = true;
-      }, '405');
-
-      test.should.be.true;
-    });
-
-  });
-
-  describe('* get answer', function(){
-
-    it('should evaluate coffeescript functions', function() {
-      var script, answer;
-
-      script = 'script = ->\n\t100\n\nreturn do script';
-      answer = get.answer(script, 'coffee');
-
-      (answer).should.equal('100');
-    });
-
-    it('should evaluate javascript functions', function() {
-      var script, answer;
-
-      script = 'return 100';
-      answer = get.answer(script, 'coffee');
-
-      (answer).should.equal('100');
+      answer.should.equal(solution);
     });
 
   });
@@ -90,11 +48,15 @@ describe('Getter', function(){
   describe('* get solution', function(){
 
     it('should return \'142913828922\' as the solution for prompt 010', function(){
+      var answer;
+
       get.solution(function(solution) {
-        solution.should.equal('142913828922');
+        answer = solution;
       }, function() {
-        console.log('failure');
+        answer = null;
       }, '010');
+
+      answer.should.equal('142913828922');
     });
 
     it('should call failure callback as the solution for prompt 000', function(){
@@ -131,7 +93,7 @@ describe('Getter', function(){
       script = 'script = ->\n\t100\n\nreturn do script';
       answer = get.answer(script, 'coffee');
 
-      (answer).should.equal('100');
+      answer.should.equal('100');
     });
 
     it('should evaluate javascript functions', function() {
@@ -140,7 +102,7 @@ describe('Getter', function(){
       script = 'return 100';
       answer = get.answer(script, 'coffee');
 
-      (answer).should.equal('100');
+      answer.should.equal('100');
     });
 
   });
