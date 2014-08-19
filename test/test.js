@@ -40,6 +40,32 @@ describe('Generator', function(){
       answer.should.equal(solution);
     });
 
+    it('should call failure callback as the prompt for 000', function(){
+      var test;
+
+      generate.preview(function(prompt) {
+        console.log(prompt);
+        test = false;
+      }, function() {
+        test = true;
+      }, '000');
+
+      test.should.be.true;
+    });
+
+    it('should call failure callback as the prompt for 405', function(){
+      var test;
+
+      generate.preview(function(prompt) {
+        console.log(prompt);
+        test = false;
+      }, function() {
+        test = true;
+      }, '405');
+
+      test.should.be.true;
+    });
+
   });
 
 });
