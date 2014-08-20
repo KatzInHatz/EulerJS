@@ -7,6 +7,26 @@ var get = require('../lib/utils/getter');
 
 describe('Generator', function(){
 
+  beforeEach(function() {
+    // create a test directory and cd into it
+    fs.mkdirSync('./euler_test');
+    process.chdir('./euler_test');
+  });
+
+  afterEach(function() {
+    var i;
+
+    // delete all files in the test directory
+    files = fs.readdirSync('.');
+    for (i = 0; i < files.length; i++) {
+      fs.unlinkSync(files[i]);
+    }
+
+    // cd to .. and delete the test directory
+    process.chdir('..');
+    fs.rmdirSync('./euler_test');
+  });
+
   describe('* generate preview', function(){
 
     it('should generate preview for a prompt that exists', function(){
@@ -32,12 +52,13 @@ describe('Generator', function(){
 
     it('should call failure callback on request for prompt below lowest number', function(){
       var test;
+      test = true;
 
       generate.preview(function(prompt) {
         console.log(prompt);
-        test = false;
+        test = test && false;
       }, function() {
-        test = true;
+        test = test && true;
       }, '000');
 
       test.should.be.true;
@@ -45,12 +66,13 @@ describe('Generator', function(){
 
     it('should call failure callback on request for prompt above maximum number', function(){
       var test;
+      test = true;
 
       generate.preview(function(prompt) {
         console.log(prompt);
-        test = false;
+        test = test && false;
       }, function() {
-        test = true;
+        test = test && true;
       }, '405');
 
       test.should.be.true;
@@ -59,27 +81,8 @@ describe('Generator', function(){
   });
 
   describe('* generate file', function(){
-    beforeEach(function() {
-      // create a test directory and cd into it
-      fs.mkdirSync('./euler_test');
-      process.chdir('./euler_test');
-    });
 
-    afterEach(function() {
-      var i;
-
-      // delete all files in the test directory
-      files = fs.readdirSync('.');
-      for (i = 0; i < files.length; i++) {
-        fs.unlinkSync(files[i]);
-      }
-
-      // cd to .. and delete the test directory
-      process.chdir('..');
-      fs.rmdirSync('./euler_test');
-    });
-
-    it('should generate a js style template for a prompt that exists', function(done){
+    it('should generate a js style template for a prompt that exists', function(){
       var answer, solution;
 
       solution = 
@@ -91,7 +94,7 @@ describe('Generator', function(){
         '// \n' +
         '// Find the sum of all the multiples of 3 or 5 below 1000.\n\n\n\n' +
         '// TODO: return your answer for this prompt.\n' +
-        'return solution;\n';
+        'return /* solution */;\n';
 
       generate.file(function(prompt) {
         answer = prompt;
@@ -100,11 +103,9 @@ describe('Generator', function(){
       }, 'js', '001');
 
       answer.should.equal(solution);
-
-      done();
     });
 
-    xit('should generate a coffeescript style template for a prompt that exists', function(){
+    it('should generate a coffeescript style template for a prompt that exists', function(){
       var answer, solution;
 
       solution = 
@@ -116,7 +117,7 @@ describe('Generator', function(){
         '# \n' +
         '# Find the sum of all the multiples of 3 or 5 below 1000.\n\n\n\n' +
         '# TODO: return your answer for this prompt.\n' +
-        'return solution\n';
+        'return # solution\n';
 
       generate.file(function(prompt) {
         answer = prompt;
@@ -127,152 +128,361 @@ describe('Generator', function(){
       answer.should.equal(solution);
     });
 
-    xit('should call failure callback on request to generate prompt numbered below minimum', function(){
+    it('should call failure callback on request to generate prompt numbered below minimum', function(){
+      var test, solution;
+      test = true;
 
+      generate.file(function(prompt) {
+        test = test && false;
+      }, function() {
+        test = test && true;
+      }, 'coffee', '000');
+
+      test.should.be.true;
     });
   
-    xit('should call failure callback on request to generate prompt numbered above maximum', function(){
-  
+    it('should call failure callback on request to generate prompt numbered above maximum', function(){
+      var test, solution;
+      test = true;
+
+      generate.file(function(prompt) {
+        test = test && false;
+      }, function() {
+        test = test && true;
+      }, 'coffee', '405');
+
+      test.should.be.true;
     });
 
   });
 
 });
 
-xdescribe('Validator', function(){
+describe('Validator', function(){
+
+  afterEach(function() {
+    var i;
+
+    // delete all files in the test directory
+    files = fs.readdirSync('.');
+    for (i = 0; i < files.length; i++) {
+      fs.unlinkSync(files[i]);
+    }
+
+    // cd to .. and delete the test directory
+    process.chdir('..');
+    fs.rmdirSync('./euler_test');
+  });
 
   describe('* validate one', function(){
 
+    beforeEach(function() {
+      var padding, i;
+      // create a test directory and cd into it
+      fs.mkdirSync('./euler_test');
+      process.chdir('./euler_test');
+  
+      // generate test files
+      padding = '000';
+      var nothing = function() {};
+      
+      generate.file(nothing, nothing, 'js', '001');
+      generate.file(nothing, nothing, 'coffee', '001');
+    });
+
     it('should validate a javascript answer against its solution', function() {
+      var test;
+      test = true;
+
       validate.one(function(answer, solution, number) {
-
+        test = test &&
+               (answer === 'undefined') && 
+               (solution === '233168') && 
+               (number === '001');
       }, function() {
-
+        test = test && false;
       }, 'js', '001');
+
+      test.should.be.true;
     });
 
     it('should validate a coffeescript answer against its solution', function() {
+      var test;
+      test = true;
+
       validate.one(function(answer, solution, number) {
-
+        test = test &&
+               (answer === 'undefined') && 
+               (solution === '233168') && 
+               (number === '001');
       }, function() {
-
+        test = test && false;
       }, 'coffee', '001');
-    });
 
-    it('should call failure callback if file does not exist', function() {
-      validate.one(function(answer, solution, number) {
-
-      }, function() {
-
-      }, 'coffee', '000');
+      test.should.be.true;
     });
 
     it('should call failure callback if solution does not exist', function() {
+      var test;
+      test = true;
+
       validate.one(function(answer, solution, number) {
-
+        test = test && false;
       }, function() {
+        test = test && true;
+      }, 'coffee', '405');
 
-      }, 'coffee', '000');
+      test.should.be.true;
+    });
+
+    it('should call failure callback if file does not exist', function() {
+      var test;
+      test = true;
+
+      fs.unlinkSync('euler_001.coffee');
+
+      validate.one(function(answer, solution, number) {
+        test = test && false;
+      }, function() {
+        test = test && true;
+      }, 'coffee', '001');
+
+      test.should.be.true;
     });
 
   });
 
   describe('* validate all', function(){
 
-    it('should validate all answers against their solution', function() {
-      validate.all(function(answers) {
-
-      }, function() {
-
-      });
+    beforeEach(function() {
+      var padding, i;
+      // create a test directory and cd into it
+      fs.mkdirSync('./euler_test');
+      process.chdir('./euler_test');
+  
+      // generate test files
+      padding = '000';
+      var nothing = function() {};
+      
+      this.timeout(0);
+      for (i = 1; i <= 266; i++) {
+        generate.file(nothing, nothing, 'js', (padding + i).slice(-padding.length));
+        generate.file(nothing, nothing, 'coffee', (padding + i).slice(-padding.length));
+      }
     });
 
     it('should validate all javascript answers against their solution', function() {
       validate.all(function(answers) {
+        var i, test;
 
+        test = true;
+        padding = '000';
+
+        for (i = 0; i < answers.length; i++) {
+          test = test && (answers[(padding + i).slice(-padding.length)][0] === 'undefined');
+          get.solution(function(solution) {
+            test = test && (answers[(padding + i).slice(-padding.length)][1] === solution);
+          }, function() {}, (padding + i).slice(-padding.length));
+        }
       }, function() {
-
+        test = test && false;
       }, 'js');
     });
 
     it('should validate all coffeescript answers against their solution', function() {
       validate.all(function(answers) {
+        var i, test;
 
+        test = true;
+        padding = '000';
+
+        for (i = 0; i < answers.length; i++) {
+          test = test && (answers[(padding + i).slice(-padding.length)][0] === 'undefined');
+          get.solution(function(solution) {
+            test = test && (answers[(padding + i).slice(-padding.length)][1] === solution);
+          }, function() {}, (padding + i).slice(-padding.length));
+        }
       }, function() {
-
+        test = test && false;
       }, 'coffee');
+    });
+
+    it('should validate all answers against their solution', function() {
+      validate.all(function(answers) {
+        var i, test;
+
+        test = true;
+        padding = '000';
+
+        for (i = 0; i < answers.length; i++) {
+          test = test && (answers[(padding + i).slice(-padding.length)][0] === 'undefined');
+          get.solution(function(solution) {
+            test = test && (answers[(padding + i).slice(-padding.length)][1] === solution);
+          }, function() {}, (padding + i).slice(-padding.length));
+        }
+      }, function() {
+        test = test && false;
+      });
     });
 
   });
 
 });
 
-xdescribe('Finder', function() {
+describe('Finder', function() {
 
-  describe('* find all', function(){
+  afterEach(function() {
+    var i;
 
-    it('should return an array of all solution  files', function(){
-      find.all();
-    });
+    // delete all files in the test directory
+    files = fs.readdirSync('.');
+    for (i = 0; i < files.length; i++) {
+      fs.unlinkSync(files[i]);
+    }
 
-    it('should return an array of all javascript solution files', function(){
-      find.all('js');
-    });
-
-    it('should return an array of all coffeescript solution files', function(){
-      find.all('coffee');
-    });
-
-    it('should return an array of all solution files for a given number', function(){
-      find.all(undefined, '001');
-    });
-
-    it('should return an array containing only a specified javascript file', function(){
-      find.all('js', '001');
-    });
-
-    it('should return an array containing only a specified coffeescript file', function(){
-      find.all('coffee', '001');
-    });
-
-    it('should return an empty array if no solution files files exist', function() {
-      find.all('');
-    });
-
+    // cd to .. and delete the test directory
+    process.chdir('..');
+    fs.rmdirSync('./euler_test');
   });
 
   describe('* find highest', function(){
 
+    beforeEach(function() {
+      var padding, i;
+      // create a test directory and cd into it
+      fs.mkdirSync('./euler_test');
+      process.chdir('./euler_test');
+    
+      // generate test files
+      padding = '000';
+      var nothing = function() {};
+      
+      generate.file(nothing, nothing, 'js', '115');
+      generate.file(nothing, nothing, 'coffee', '266');
+    });
+
     it('should find highest solution file number', function() {
+      var test;
+
       find.highest(function(number) {
-
+        test = number;
       }, function() {
-
+        test = test + 'failure';
       });
+
+      test.should.equal('266');
     });
 
     it('should find highest coffeescript solution file number', function() {
+      var test;
+
       find.highest(function(number) {
-
+        test = number;
       }, function() {
-
+        test = test + 'failure';
       }, 'coffee');
+
+      test.should.equal('266');
     });
 
     it('should find highest javascript solution file number', function() {
+      var test;
+
       find.highest(function(number) {
-
+        test = number;
       }, function() {
+        test = test + 'failure';
+      }, 'js');
 
-      });
-    }, 'js');
+      test.should.equal('115');
+    });
 
     it('should return 000 if no solution files exist', function() {
+      var i, test;
+  
+      // delete all files in the test directory
+      files = fs.readdirSync('.');
+      for (i = 0; i < files.length; i++) {
+        fs.unlinkSync(files[i]);
+      }
+
       find.highest(function(number) {
-
+        test = number;
       }, function() {
-
+        test = test + 'failure';
       });
+
+      test.should.equal('000');
+    });
+
+  });
+
+  describe('* find all', function(){
+
+    beforeEach(function() {
+      var padding, i;
+      // create a test directory and cd into it
+      fs.mkdirSync('./euler_test');
+      process.chdir('./euler_test');
+  
+      // generate test files
+      padding = '000';
+      var nothing = function() {};
+      
+      this.timeout(0);
+      for (i = 1; i <= 266; i++) {
+        generate.file(nothing, nothing, 'js', (padding + i).slice(-padding.length));
+        generate.file(nothing, nothing, 'coffee', (padding + i).slice(-padding.length));
+      }
+    });
+
+    it('should return an array of all javascript solution files', function(){
+      var list;
+      list = find.all('js');
+      list.length.should.equal(266);
+    });
+
+    it('should return an array of all coffeescript solution files', function(){
+      var list;
+      list = find.all('coffee');
+      list.length.should.equal(266);
+    });
+
+    it('should return an array of all solution files', function(){
+      var list;
+      list = find.all();
+      list.length.should.equal(266*2);
+    });
+
+    it('should return an array of all solution files for a given number', function(){
+      var list;
+      list = find.all(undefined, '001');
+      list.length.should.equal(2);
+    });
+
+    it('should return an array containing only a specified javascript file', function(){
+      var list;
+      list = find.all('js', '001');
+      list[0].should.equal('euler_001.js');
+    });
+
+    it('should return an array containing only a specified coffeescript file', function(){
+      var list;
+      list = find.all('coffee', '001');
+      list[0].should.equal('euler_001.coffee');
+    });
+
+    it('should return an empty array if no solution files exist', function() {
+      var i, list;
+  
+      // delete all files in the test directory
+      files = fs.readdirSync('.');
+      for (i = 0; i < files.length; i++) {
+        fs.unlinkSync(files[i]);
+      }
+
+      list = find.all();
+      list.length.should.equal(0);
     });
 
   });
