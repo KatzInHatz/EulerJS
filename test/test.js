@@ -32,12 +32,13 @@ describe('Generator', function(){
 
     it('should call failure callback on request for prompt below lowest number', function(){
       var test;
+      test = true;
 
       generate.preview(function(prompt) {
         console.log(prompt);
-        test = false;
+        test = test && false;
       }, function() {
-        test = true;
+        test = test && true;
       }, '000');
 
       test.should.be.true;
@@ -45,12 +46,13 @@ describe('Generator', function(){
 
     it('should call failure callback on request for prompt above maximum number', function(){
       var test;
+      test = true;
 
       generate.preview(function(prompt) {
         console.log(prompt);
-        test = false;
+        test = test && false;
       }, function() {
-        test = true;
+        test = test && true;
       }, '405');
 
       test.should.be.true;
@@ -79,7 +81,7 @@ describe('Generator', function(){
       fs.rmdirSync('./euler_test');
     });
 
-    it('should generate a js style template for a prompt that exists', function(done){
+    it('should generate a js style template for a prompt that exists', function(){
       var answer, solution;
 
       solution = 
@@ -91,7 +93,7 @@ describe('Generator', function(){
         '// \n' +
         '// Find the sum of all the multiples of 3 or 5 below 1000.\n\n\n\n' +
         '// TODO: return your answer for this prompt.\n' +
-        'return solution;\n';
+        'return /* solution */;\n';
 
       generate.file(function(prompt) {
         answer = prompt;
@@ -100,8 +102,6 @@ describe('Generator', function(){
       }, 'js', '001');
 
       answer.should.equal(solution);
-
-      done();
     });
 
     it('should generate a coffeescript style template for a prompt that exists', function(){
@@ -116,7 +116,7 @@ describe('Generator', function(){
         '# \n' +
         '# Find the sum of all the multiples of 3 or 5 below 1000.\n\n\n\n' +
         '# TODO: return your answer for this prompt.\n' +
-        'return solution\n';
+        'return # solution\n';
 
       generate.file(function(prompt) {
         answer = prompt;
@@ -129,11 +129,12 @@ describe('Generator', function(){
 
     it('should call failure callback on request to generate prompt numbered below minimum', function(){
       var test, solution;
+      test = true;
 
       generate.file(function(prompt) {
-        test = false;
+        test = test && false;
       }, function() {
-        test = true;
+        test = test && true;
       }, 'coffee', '000');
 
       test.should.be.true;
@@ -141,11 +142,12 @@ describe('Generator', function(){
   
     it('should call failure callback on request to generate prompt numbered above maximum', function(){
       var test, solution;
+      test = true;
 
       generate.file(function(prompt) {
-        test = false;
+        test = test && false;
       }, function() {
-        test = true;
+        test = test && true;
       }, 'coffee', '405');
 
       test.should.be.true;
@@ -155,45 +157,93 @@ describe('Generator', function(){
 
 });
 
-xdescribe('Validator', function(){
+describe('Validator', function(){
+
+  beforeEach(function() {
+    // create a test directory and cd into it
+    fs.mkdirSync('./euler_test');
+    process.chdir('./euler_test');
+
+    // generate test files
+    generate.file(function() {}, function() {}, 'js', '001');
+    generate.file(function() {}, function() {}, 'coffee', '001');
+  });
+
+  afterEach(function() {
+    var i;
+
+    // delete all files in the test directory
+    files = fs.readdirSync('.');
+    for (i = 0; i < files.length; i++) {
+      fs.unlinkSync(files[i]);
+    }
+
+    // cd to .. and delete the test directory
+    process.chdir('..');
+    fs.rmdirSync('./euler_test');
+  });
 
   describe('* validate one', function(){
 
     it('should validate a javascript answer against its solution', function() {
+      var test;
+      test = true;
+
       validate.one(function(answer, solution, number) {
-
+        test = test &&
+               (answer === 'undefined') && 
+               (solution === '233168') && 
+               (number === '001');
       }, function() {
-
+        test = test && false;
       }, 'js', '001');
+
+      test.should.be.true;
     });
 
     it('should validate a coffeescript answer against its solution', function() {
+      var test;
+      test = true;
+
       validate.one(function(answer, solution, number) {
-
+        test = test &&
+               (answer === 'undefined') && 
+               (solution === '233168') && 
+               (number === '001');
       }, function() {
-
+        test = test && false;
       }, 'coffee', '001');
+
+      test.should.be.true;
     });
 
     it('should call failure callback if file does not exist', function() {
+      var test = true;
+
       validate.one(function(answer, solution, number) {
-
+        test = test && false;
       }, function() {
-
+        test = test && true;
       }, 'coffee', '000');
+
+      test.should.be.true;
     });
 
     it('should call failure callback if solution does not exist', function() {
+      var test = true;
+
       validate.one(function(answer, solution, number) {
-
+        test = test && false;
       }, function() {
+        test = test && true;
+      }, 'coffee', '405');
 
-      }, 'coffee', '000');
+      test.should.be.true;
     });
 
   });
 
-  describe('* validate all', function(){
+  xdescribe('* validate all', function(){
 
     it('should validate all answers against their solution', function() {
       validate.all(function(answers) {
