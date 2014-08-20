@@ -4,7 +4,7 @@
   "description": "Javascript port of EulerPy",
   "main": "euler.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -40,6 +40,7 @@
     "colors": "^0.6.2",
     "commander": "^2.3.0",
     "inquirer": "^0.6.0",
+    "mocha": "^1.21.4",
     "should": "^4.0.4"
   }
 }
