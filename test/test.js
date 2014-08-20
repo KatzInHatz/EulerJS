@@ -104,7 +104,7 @@ describe('Generator', function(){
       done();
     });
 
-    xit('should generate a coffeescript style template for a prompt that exists', function(){
+    it('should generate a coffeescript style template for a prompt that exists', function(){
       var answer, solution;
 
       solution = 
@@ -127,12 +127,28 @@ describe('Generator', function(){
       answer.should.equal(solution);
     });
 
-    xit('should call failure callback on request to generate prompt numbered below minimum', function(){
+    it('should call failure callback on request to generate prompt numbered below minimum', function(){
+      var test, solution;
 
+      generate.file(function(prompt) {
+        test = false;
+      }, function() {
+        test = true;
+      }, 'coffee', '000');
+
+      test.should.be.true;
     });
   
-    xit('should call failure callback on request to generate prompt numbered above maximum', function(){
-  
+    it('should call failure callback on request to generate prompt numbered above maximum', function(){
+      var test, solution;
+
+      generate.file(function(prompt) {
+        test = false;
+      }, function() {
+        test = true;
+      }, 'coffee', '405');
+
+      test.should.be.true;
     });
 
   });
