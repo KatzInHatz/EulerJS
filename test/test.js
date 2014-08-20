@@ -55,7 +55,6 @@ describe('Generator', function(){
       test = true;
 
       generate.preview(function(prompt) {
-        console.log(prompt);
         test = test && false;
       }, function() {
         test = test && true;
@@ -194,7 +193,8 @@ describe('Validator', function(){
       var test;
       test = true;
 
-      validate.one(function(answer, solution, number) {
+      validate.one(function(answer, solution, number, time) {
+        console.log('execution time:', time);
         test = test &&
                (answer === 'undefined') && 
                (solution === '233168') && 
@@ -542,7 +542,7 @@ describe('Getter', function(){
 
       answer = get.answer(script, 'coffee');
 
-      answer.should.equal('100');
+      answer[0].should.equal('100');
     });
 
     it('should evaluate javascript functions', function() {
@@ -555,7 +555,7 @@ describe('Getter', function(){
 
       answer = get.answer(script, 'js');
 
-      answer.should.equal('100');
+      answer[0].should.equal('100');
     });
 
   });
