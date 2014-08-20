@@ -7,6 +7,26 @@ var get = require('../lib/utils/getter');
 
 describe('Generator', function(){
 
+  beforeEach(function() {
+    // create a test directory and cd into it
+    fs.mkdirSync('./euler_test');
+    process.chdir('./euler_test');
+  });
+
+  afterEach(function() {
+    var i;
+
+    // delete all files in the test directory
+    files = fs.readdirSync('.');
+    for (i = 0; i < files.length; i++) {
+      fs.unlinkSync(files[i]);
+    }
+
+    // cd to .. and delete the test directory
+    process.chdir('..');
+    fs.rmdirSync('./euler_test');
+  });
+
   describe('* generate preview', function(){
 
     it('should generate preview for a prompt that exists', function(){
@@ -61,25 +81,6 @@ describe('Generator', function(){
   });
 
   describe('* generate file', function(){
-    beforeEach(function() {
-      // create a test directory and cd into it
-      fs.mkdirSync('./euler_test');
-      process.chdir('./euler_test');
-    });
-
-    afterEach(function() {
-      var i;
-
-      // delete all files in the test directory
-      files = fs.readdirSync('.');
-      for (i = 0; i < files.length; i++) {
-        fs.unlinkSync(files[i]);
-      }
-
-      // cd to .. and delete the test directory
-      process.chdir('..');
-      fs.rmdirSync('./euler_test');
-    });
 
     it('should generate a js style template for a prompt that exists', function(){
       var answer, solution;
@@ -157,7 +158,7 @@ describe('Generator', function(){
 
 });
 
-xdescribe('Validator', function(){
+describe('Validator', function(){
 
   afterEach(function() {
     var i;
@@ -330,38 +331,88 @@ xdescribe('Validator', function(){
 
 describe('Finder', function() {
 
-  xdescribe('* find highest', function(){
+  afterEach(function() {
+    var i;
+
+    // delete all files in the test directory
+    files = fs.readdirSync('.');
+    for (i = 0; i < files.length; i++) {
+      fs.unlinkSync(files[i]);
+    }
+
+    // cd to .. and delete the test directory
+    process.chdir('..');
+    fs.rmdirSync('./euler_test');
+  });
+
+  describe('* find highest', function(){
+
+    beforeEach(function() {
+      var padding, i;
+      // create a test directory and cd into it
+      fs.mkdirSync('./euler_test');
+      process.chdir('./euler_test');
+    
+      // generate test files
+      padding = '000';
+      var nothing = function() {};
+      
+      generate.file(nothing, nothing, 'js', '115');
+      generate.file(nothing, nothing, 'coffee', '266');
+    });
 
     it('should find highest solution file number', function() {
+      var test;
+
       find.highest(function(number) {
-
+        test = number;
       }, function() {
-
+        test = test + 'failure';
       });
+
+      test.should.equal('266');
     });
 
     it('should find highest coffeescript solution file number', function() {
+      var test;
+
       find.highest(function(number) {
-
+        test = number;
       }, function() {
-
+        test = test + 'failure';
       }, 'coffee');
+
+      test.should.equal('266');
     });
 
     it('should find highest javascript solution file number', function() {
+      var test;
+
       find.highest(function(number) {
-
+        test = number;
       }, function() {
+        test = test + 'failure';
+      }, 'js');
 
-      });
-    }, 'js');
+      test.should.equal('115');
+    });
 
     it('should return 000 if no solution files exist', function() {
+      var i, test;
+  
+      // delete all files in the test directory
+      files = fs.readdirSync('.');
+      for (i = 0; i < files.length; i++) {
+        fs.unlinkSync(files[i]);
+      }
+
       find.highest(function(number) {
-
+        test = number;
       }, function() {
-
+        test = test + 'failure';
       });
+
+      test.should.equal('000');
     });
 
   });
@@ -383,20 +434,6 @@ describe('Finder', function() {
         generate.file(nothing, nothing, 'js', (padding + i).slice(-padding.length));
         generate.file(nothing, nothing, 'coffee', (padding + i).slice(-padding.length));
       }
-    });
-
-    afterEach(function() {
-      var i;
-  
-      // delete all files in the test directory
-      files = fs.readdirSync('.');
-      for (i = 0; i < files.length; i++) {
-        fs.unlinkSync(files[i]);
-      }
-  
-      // cd to .. and delete the test directory
-      process.chdir('..');
-      fs.rmdirSync('./euler_test');
     });
 
     it('should return an array of all javascript solution files', function(){
