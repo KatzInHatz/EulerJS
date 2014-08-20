@@ -159,16 +159,6 @@ describe('Generator', function(){
 
 describe('Validator', function(){
 
-  beforeEach(function() {
-    // create a test directory and cd into it
-    fs.mkdirSync('./euler_test');
-    process.chdir('./euler_test');
-
-    // generate test files
-    generate.file(function() {}, function() {}, 'js', '001');
-    generate.file(function() {}, function() {}, 'coffee', '001');
-  });
-
   afterEach(function() {
     var i;
 
@@ -184,6 +174,20 @@ describe('Validator', function(){
   });
 
   describe('* validate one', function(){
+
+    beforeEach(function() {
+      var padding, i;
+      // create a test directory and cd into it
+      fs.mkdirSync('./euler_test');
+      process.chdir('./euler_test');
+  
+      // generate test files
+      padding = '000';
+      var nothing = function() {};
+      
+      generate.file(nothing, nothing, 'js', '001');
+      generate.file(nothing, nothing, 'coffee', '001');
+    });
 
     it('should validate a javascript answer against its solution', function() {
       var test;
@@ -217,20 +221,9 @@ describe('Validator', function(){
       test.should.be.true;
     });
 
-    it('should call failure callback if file does not exist', function() {
-      var test = true;
-
-      validate.one(function(answer, solution, number) {
-        test = test && false;
-      }, function() {
-        test = test && true;
-      }, 'coffee', '000');
-
-      test.should.be.true;
-    });
-
     it('should call failure callback if solution does not exist', function() {
-      var test = true;
+      var test;
+      test = true;
 
       validate.one(function(answer, solution, number) {
         test = test && false;
@@ -241,32 +234,94 @@ describe('Validator', function(){
       test.should.be.true;
     });
 
+    it('should call failure callback if file does not exist', function() {
+      var test;
+      test = true;
+
+      fs.unlinkSync('euler_001.coffee');
+
+      validate.one(function(answer, solution, number) {
+        test = test && false;
+      }, function() {
+        test = test && true;
+      }, 'coffee', '001');
+
+      test.should.be.true;
+    });
+
   });
 
-  xdescribe('* validate all', function(){
+  describe('* validate all', function(){
 
-    it('should validate all answers against their solution', function() {
-      validate.all(function(answers) {
-
-      }, function() {
-
-      });
+    beforeEach(function() {
+      var padding, i;
+      // create a test directory and cd into it
+      fs.mkdirSync('./euler_test');
+      process.chdir('./euler_test');
+  
+      // generate test files
+      padding = '000';
+      var nothing = function() {};
+      
+      this.timeout(0);
+      for (i = 1; i <= 266; i++) {
+        generate.file(nothing, nothing, 'js', (padding + i).slice(-padding.length));
+        generate.file(nothing, nothing, 'coffee', (padding + i).slice(-padding.length));
+      }
     });
 
     it('should validate all javascript answers against their solution', function() {
       validate.all(function(answers) {
+        var i, test;
 
+        test = true;
+        padding = '000';
+
+        for (i = 0; i < answers.length; i++) {
+          test = test && (answers[(padding + i).slice(-padding.length)][0] === 'undefined');
+          get.solution(function(solution) {
+            test = test && (answers[(padding + i).slice(-padding.length)][1] === solution);
+          }, function() {}, (padding + i).slice(-padding.length));
+        }
       }, function() {
-
+        test = test && false;
       }, 'js');
     });
 
     it('should validate all coffeescript answers against their solution', function() {
       validate.all(function(answers) {
+        var i, test;
 
+        test = true;
+        padding = '000';
+
+        for (i = 0; i < answers.length; i++) {
+          test = test && (answers[(padding + i).slice(-padding.length)][0] === 'undefined');
+          get.solution(function(solution) {
+            test = test && (answers[(padding + i).slice(-padding.length)][1] === solution);
+          }, function() {}, (padding + i).slice(-padding.length));
+        }
       }, function() {
-
+        test = test && false;
       }, 'coffee');
+    });
+
+    it('should validate all answers against their solution', function() {
+      validate.all(function(answers) {
+        var i, test;
+
+        test = true;
+        padding = '000';
+
+        for (i = 0; i < answers.length; i++) {
+          test = test && (answers[(padding + i).slice(-padding.length)][0] === 'undefined');
+          get.solution(function(solution) {
+            test = test && (answers[(padding + i).slice(-padding.length)][1] === solution);
+          }, function() {}, (padding + i).slice(-padding.length));
+        }
+      }, function() {
+        test = test && false;
+      });
     });
 
   });
