@@ -1,6 +1,6 @@
 {
   "name": "euler",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Javascript port of EulerPy",
   "main": "euler.js",
   "scripts": {
