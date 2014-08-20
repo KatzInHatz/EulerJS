@@ -157,7 +157,7 @@ describe('Generator', function(){
 
 });
 
-describe('Validator', function(){
+xdescribe('Validator', function(){
 
   afterEach(function() {
     var i;
@@ -328,41 +328,9 @@ describe('Validator', function(){
 
 });
 
-xdescribe('Finder', function() {
+describe('Finder', function() {
 
-  describe('* find all', function(){
-
-    it('should return an array of all solution  files', function(){
-      find.all();
-    });
-
-    it('should return an array of all javascript solution files', function(){
-      find.all('js');
-    });
-
-    it('should return an array of all coffeescript solution files', function(){
-      find.all('coffee');
-    });
-
-    it('should return an array of all solution files for a given number', function(){
-      find.all(undefined, '001');
-    });
-
-    it('should return an array containing only a specified javascript file', function(){
-      find.all('js', '001');
-    });
-
-    it('should return an array containing only a specified coffeescript file', function(){
-      find.all('coffee', '001');
-    });
-
-    it('should return an empty array if no solution files files exist', function() {
-      find.all('');
-    });
-
-  });
-
-  describe('* find highest', function(){
+  xdescribe('* find highest', function(){
 
     it('should find highest solution file number', function() {
       find.highest(function(number) {
@@ -394,6 +362,90 @@ xdescribe('Finder', function() {
       }, function() {
 
       });
+    });
+
+  });
+
+  describe('* find all', function(){
+
+    beforeEach(function() {
+      var padding, i;
+      // create a test directory and cd into it
+      fs.mkdirSync('./euler_test');
+      process.chdir('./euler_test');
+  
+      // generate test files
+      padding = '000';
+      var nothing = function() {};
+      
+      this.timeout(0);
+      for (i = 1; i <= 266; i++) {
+        generate.file(nothing, nothing, 'js', (padding + i).slice(-padding.length));
+        generate.file(nothing, nothing, 'coffee', (padding + i).slice(-padding.length));
+      }
+    });
+
+    afterEach(function() {
+      var i;
+  
+      // delete all files in the test directory
+      files = fs.readdirSync('.');
+      for (i = 0; i < files.length; i++) {
+        fs.unlinkSync(files[i]);
+      }
+  
+      // cd to .. and delete the test directory
+      process.chdir('..');
+      fs.rmdirSync('./euler_test');
+    });
+
+    it('should return an array of all javascript solution files', function(){
+      var list;
+      list = find.all('js');
+      list.length.should.equal(266);
+    });
+
+    it('should return an array of all coffeescript solution files', function(){
+      var list;
+      list = find.all('coffee');
+      list.length.should.equal(266);
+    });
+
+    it('should return an array of all solution files', function(){
+      var list;
+      list = find.all();
+      list.length.should.equal(266*2);
+    });
+
+    it('should return an array of all solution files for a given number', function(){
+      var list;
+      list = find.all(undefined, '001');
+      list.length.should.equal(2);
+    });
+
+    it('should return an array containing only a specified javascript file', function(){
+      var list;
+      list = find.all('js', '001');
+      list[0].should.equal('euler_001.js');
+    });
+
+    it('should return an array containing only a specified coffeescript file', function(){
+      var list;
+      list = find.all('coffee', '001');
+      list[0].should.equal('euler_001.coffee');
+    });
+
+    it('should return an empty array if no solution files exist', function() {
+      var i, list;
+  
+      // delete all files in the test directory
+      files = fs.readdirSync('.');
+      for (i = 0; i < files.length; i++) {
+        fs.unlinkSync(files[i]);
+      }
+
+      list = find.all();
+      list.length.should.equal(0);
     });
 
   });
