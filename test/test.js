@@ -1,4 +1,5 @@
 var should = require('should');
+var fs = require('fs');
 var generate = require('../lib/utils/generator');
 var validate = require('../lib/utils/validator');
 var find = require('../lib/utils/finder');
@@ -57,9 +58,28 @@ describe('Generator', function(){
 
   });
 
-  xdescribe('* generate file', function(){
+  describe('* generate file', function(){
+    beforeEach(function() {
+      // create a test directory and cd into it
+      fs.mkdirSync('./euler_test');
+      process.chdir('./euler_test');
+    });
 
-    it('should generate a js style template for a prompt that exists', function(){
+    afterEach(function() {
+      var i;
+
+      // delete all files in the test directory
+      files = fs.readdirSync('.');
+      for (i = 0; i < files.length; i++) {
+        fs.unlinkSync(files[i]);
+      }
+
+      // cd to .. and delete the test directory
+      process.chdir('..');
+      fs.rmdirSync('./euler_test');
+    });
+
+    it('should generate a js style template for a prompt that exists', function(done){
       var answer, solution;
 
       solution = 
@@ -80,9 +100,11 @@ describe('Generator', function(){
       }, 'js', '001');
 
       answer.should.equal(solution);
+
+      done();
     });
 
-    it('should generate a coffeescript style template for a prompt that exists', function(){
+    xit('should generate a coffeescript style template for a prompt that exists', function(){
       var answer, solution;
 
       solution = 
@@ -105,11 +127,11 @@ describe('Generator', function(){
       answer.should.equal(solution);
     });
 
-    it('should call failure callback on request to generate prompt numbered below minimum', function(){
+    xit('should call failure callback on request to generate prompt numbered below minimum', function(){
 
     });
   
-    it('should call failure callback on request to generate prompt numbered above maximum', function(){
+    xit('should call failure callback on request to generate prompt numbered above maximum', function(){
   
     });
 
