@@ -3,7 +3,7 @@
 EuleyJS is a commandline tool for greasing up your rusty programming and math skills through [Project Euler](http://projecteuler.net/) challenges. Use the `euler` command line interface to generate a prompt in JavaScript or CoffeeScript and verify your answers when you're done.
 
 ##Installation
-EuleyJS is an installable via npm and depends on [Node.js](http://nodejs.org/).
+EuleyJS is installable via npm and depends on [Node.js](http://nodejs.org/).
 ```
 $ npm install -g euler
 ```
