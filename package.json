@@ -1,6 +1,6 @@
 {
   "name": "euler",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "a commandline tool for greasing up your rusty programming and math skills through Project Euler challenges.",
   "main": "euler.js",
   "scripts": {
