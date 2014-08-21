@@ -5,6 +5,17 @@ var validate = require('../lib/utils/validator');
 var find = require('../lib/utils/finder');
 var get = require('../lib/utils/getter');
 
+
+var prompt = {
+  min: '000',
+  max: '267'
+};
+
+var solution = {
+  min: '000',
+  max: '405'
+};
+
 describe('Generator', function(){
 
   beforeEach(function() {
@@ -68,7 +79,6 @@ describe('Generator', function(){
       test = true;
 
       generate.preview(function(prompt) {
-        console.log(prompt);
         test = test && false;
       }, function() {
         test = test && true;
@@ -135,7 +145,7 @@ describe('Generator', function(){
         test = test && false;
       }, function() {
         test = test && true;
-      }, 'coffee', '000');
+      }, 'coffee', prompt.min);
 
       test.should.be.true;
     });
@@ -148,7 +158,7 @@ describe('Generator', function(){
         test = test && false;
       }, function() {
         test = test && true;
-      }, 'coffee', '405');
+      }, 'coffee', prompt.max);
 
       test.should.be.true;
     });
@@ -194,7 +204,6 @@ describe('Validator', function(){
       test = true;
 
       validate.one(function(answer, solution, number, time) {
-        console.log('execution time:', time);
         test = test &&
                (answer === 'undefined') && 
                (solution === '233168') && 
@@ -230,7 +239,7 @@ describe('Validator', function(){
         test = test && false;
       }, function() {
         test = test && true;
-      }, 'coffee', '405');
+      }, 'coffee', solution.max);
 
       test.should.be.true;
     });
@@ -511,7 +520,7 @@ describe('Getter', function(){
         test = false;
       }, function() {
         test = true;
-      }, '000');
+      }, solution.min);
 
       test.should.be.true;
     });
@@ -523,7 +532,7 @@ describe('Getter', function(){
         test = false;
       }, function() {
         test = true;
-      }, '405');
+      }, solution.max);
 
       test.should.be.true;
     });
