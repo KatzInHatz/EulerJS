@@ -37,4 +37,4 @@ $ mkdir ./project-euler && cd ./project-euler
 EuleyJS is a port port of [Kevin Yap](http://kevinyap.ca/)'s [EulerPy](https://github.com/iKevinY/EulerPy) which was built on [Kyle Keen](http://kmkeen.com/)'s [Local Euler](http://kmkeen.com/local-euler/) resources.
 
 ##License
-Licensed under the [MIT License](https://github.com/iKevinY/EulerPy/blob/master/LICENSE).
+Licensed under the MIT License.
