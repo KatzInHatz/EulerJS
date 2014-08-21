@@ -194,7 +194,6 @@ describe('Validator', function(){
       test = true;
 
       validate.one(function(answer, solution, number, time) {
-        console.log('execution time:', time);
         test = test &&
                (answer === 'undefined') && 
                (solution === '233168') && 
