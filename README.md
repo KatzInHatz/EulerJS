@@ -26,10 +26,11 @@ $ mkdir ./project-euler && cd ./project-euler
 
     -h, --help              output usage information
     -V, --version           output the version number
-    -c, --cheat [value]     Print answer
+    -s, --solve [value]     Print answer
     -g, --generate [value]  Generate file with problem prompt
     -p, --preview [value]   Preview problem prompt
     -v, --verify [value]    Verify solution to problem
+        --verify-all        Verify solutions for all existing euler files
 ```
 
 ##Inspiration :heart:
