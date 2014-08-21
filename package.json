@@ -1,7 +1,7 @@
 {
   "name": "euler",
-  "version": "0.0.1",
-  "description": "Javascript port of EulerPy",
+  "version": "0.0.2",
+  "description": "a commandline tool for greasing up your rusty programming and math skills through Project Euler challenges.",
   "main": "euler.js",
   "scripts": {
     "test": "mocha"
