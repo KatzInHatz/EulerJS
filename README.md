@@ -16,7 +16,7 @@ $ npm uninstall -g euler
 ##Usage
 To start out, you'll want to create a project-euler directory and `cd` into it.
 ```
-$ mkdir ./project-euler && cd ./project-euler
+$ mkdir project-euler && cd project-euler
 ```
 
 ```
