@@ -24,13 +24,27 @@ $ mkdir project-euler && cd project-euler
 
   Options:
 
+    --version               output the version number
     -h, --help              output usage information
-    -V, --version           output the version number
-    -s, --solve [value]     Print answer
+    -s, --solve    [value]  Print solution
     -g, --generate [value]  Generate file with problem prompt
-    -p, --preview [value]   Preview problem prompt
-    -v, --verify [value]    Verify solution to problem
-        --verify-all        Verify solutions for all existing euler files
+    -c, --coffee   [value]  Generate coffeescript file with problem prompt
+    -p, --preview  [value]  Preview problem prompt
+    -v, --verify   [value]  Verify solution to problem
+    -V  --verify-all        Verify all solutions in cwd
+```
+
+So, if you're trying to verify your solution for euler_123.coffee, you'd type something like
+```
+$ euler -vc 123
+```
+and you'd get the following output:
+```
+-------------------------------
+Problem 123
+undefined is incorrect
+207ms run time
+-------------------------------
 ```
 
 ##Inspiration :heart:
