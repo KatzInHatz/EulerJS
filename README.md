@@ -42,7 +42,7 @@ and you'd get the following output:
 ```
 -------------------------------
 Problem 123
-undefined is incorrect
+1337 is incorrect
 207ms run time
 -------------------------------
 ```
