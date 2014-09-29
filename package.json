@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/EulerJS/EulerJS.git"
+    "url": "https://github.com/KatzInHatz/EulerJS.git"
   },
   "preferGlobal": "true",
   "bin": {
@@ -32,9 +32,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/EulerJS/EulerJS/issues"
+    "url": "https://github.com/KatzInHatz/EulerJS/issues"
   },
-  "homepage": "https://github.com/EulerJS/EulerJS",
+  "homepage": "https://github.com/KatzInHatz/EulerJS",
   "dependencies": {
     "coffee-script": "^1.7.1",
     "colors": "^0.6.2",
